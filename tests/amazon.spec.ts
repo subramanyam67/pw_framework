@@ -1,19 +1,5 @@
 import { test, expect } from '@playwright/test';
 
-// test('test', async ({ page }) => {
-//   await page.goto('https://www.amazon.in/');
-//   await page.getByRole('button', { name: 'Open All Categories Menu' }).click();
-//   await page.getByRole('link', { name: 'Bestsellers' }).click();
-// //   await expect(page.locator('#nav-cover')).toBeVisible();
-//   await page.locator('#nav-cover').click();
-//   await page.getByRole('heading', { name: 'Amazon Bestsellers' }).click();
-//   await page.getByRole('link', { name: 'Books', exact: true }).click();
-//   await page.getByRole('link', { name: 'Next Toppers CBSE Class 10 Sample Papers 2026-27 | Science, Mathematics' }).click();
-//   await page.getByRole('button', { name: 'Add to cart', exact: true }).click();
-//   await page.locator('#sw-gtc').getByRole('link', { name: 'Go to Cart' }).click();
-// });
-
-
 
 test('test', async ({ page }) => {
   await page.goto('https://www.amazon.in/');
