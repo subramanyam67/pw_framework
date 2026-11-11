@@ -39,7 +39,7 @@ test('post new coffee to the server',async({request})=>{
         console.log('name',responceBody.name);
 })
 
-test.only("New Coffee the Service Key", async({request})=>{
+test("New Coffee the Service Key", async({request})=>{
     const responce = await request.post('api/training/Coffees', {
         params: {
             "key": process.env.SERVICE_KEY!,
