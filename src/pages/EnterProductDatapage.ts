@@ -1,41 +1,49 @@
-import { Page,Locator } from "@playwright/test";
-import {VehicleData} from '../utils/vehicleDatamapper';
 
-export class EnterProductDataPage{
+import {Page, Locator} from '@playwright/test'
+import { VehicleData } from '../utils/VehicleDatamapper';
+
+
+export class EnterProductData{
+    // properties:
     readonly page:Page;
-    readonly startDate:Locator;
-    readonly insuranceSum:Locator;
-    readonly meritRating:Locator;
-    readonly damageInsurance:Locator;
-    readonly optionalProducts:Locator;
-    readonly courtesyCar:Locator;
+    readonly StartDate:Locator;
+    readonly InsuranceSum:Locator;
+    readonly MeritRating:Locator;
+    readonly DamageInsurance:Locator;
+    readonly OptionalProducts:Locator;
+    readonly CourtesyCar:Locator;
     readonly next:Locator;
 
-    constructor(page:Page){
+    constructor(page: Page){
         this.page = page;
-        this.startDate = page.locator('#startdate');
-        this.insuranceSum = page.locator('#insurancesum');
-        this.meritRating = page.locator('#meritrating');
-        this.damageInsurance = page.locator('#damageinsurance');
-        this.optionalProducts = page.locator('#EuroProtection');
-        this.courtesyCar = page.locator('#courtesycar');
+        this.StartDate = page.locator('#startdate');
+        this.InsuranceSum = page.locator('#insurancesum')
+        this.MeritRating = page.locator('#meritrating')
+        this.DamageInsurance = page.locator('#damageinsurance');
+        this.OptionalProducts = page.locator('#EuroProtection');
+        this.CourtesyCar = page.locator('#courtesycar');
         this.next = page.locator('#nextselectpriceoption');
     }
-async EnterProductData(data:VehicleData){
-    await this.startDate.fill(data.startDate);
-    await this.insuranceSum.selectOption(data.insuranceSum);
-    await this.damageInsurance.selectOption(data.damageInsurance);
-    await this.optionalProducts.check({force:true});
+
+
+
+async EnterProductDataAuto(data:VehicleData){
+    await this.StartDate.fill(data.startDate);
+    await this.InsuranceSum.selectOption(data.insuranceSum);
+    await this.DamageInsurance.selectOption(data.damageInsurance);
+    await this.OptionalProducts.check({force:true});
     
-
 }
 
-async MeriCurt(data:VehicleData){
-    await this.meritRating.selectOption(data.meritRating);
-    await this.courtesyCar.selectOption(data.courtesyCar);
-
+async MeritCurt(data:VehicleData){
+    await this.MeritRating.selectOption(data.meritRating);
+    await this.CourtesyCar.selectOption(data.courtesyCar);
 }
-async clickNext(){
+
+
+
+async clickProductData(){
     await this.next.click();
 }
+
 }

@@ -1,115 +1,116 @@
-// import{test, expect} from '@playwright/test'
-import {test} from '../src/fixtures/VIfixture'
-import path from 'path';
-import{HomePage} from '../src/pages/Homepage';
-import {ExcelReader} from '../src/readers/ExcelReader';
-// import { VehicleData } from '../src/utils/vehicleDatamapper';
-import {EnterVehicleDataPages}from '../src/pages/EnterVehicleDataPages';
-import {EnterInsurantDataPage}from '../src/pages/EnterInsurantDataPage';
-import {EnterProductDataPage} from '../src/pages/EnterProductDatapage';
-import { SelectPriceOptionPage } from '../src/pages/SelectPriceOptionPage';
-import { SendQuotePage } from '../src/pages/SendQuotePage';
 
-//read the Excel Data:
-const xlfilePath = path.join(__dirname, '../src/test-data/automobile.xlsx');
-const data:ExcelReader[] = ExcelReader.readExcel(xlfilePath,'TestData')
+import {test} from '../src/fixtures/VIfixture';
+import path from 'path';
+import {HomePage} from '../src/pages/Homepage';
+import { ExcelReader } from '../src/readers/ExcelReader';
+import {EnterVehicleDataPage} from '../src/pages/EnterVehicleDataPages';
+import {EnterInsurantDataPage} from '../src/pages/EnterInsurantDataPage';
+import { EnterProductData } from '../src/pages/EnterProductDatapage';
+import { SelectPrice } from '../src/pages/SelectPriceOptionPage';
+import { SendQuoteClass } from '../src/pages/SendQuotePage';
+
+// Read the Excel Data:
+const XLFilePath = path.join(__dirname, '../src/test-data/automobile.xlsx');
+const data: ExcelReader[] = ExcelReader.readExcel(XLFilePath, 'TestData');
 for(let i in data){
     console.log(data[i]);
 }
 
-test.only('click on automobile',async({page, homepage})=>{
-    //create object for homepage
+test("click on automobile",async({page, homepage})=>{
+    // create object for homepage
     const home = new HomePage(page);
     await home.navigateToApplication();
     await home.clickAutomobile();
 
-    //entervehicledata:
-    const EvData = new EnterVehicleDataPages(page);
+    // Read ExcelData: Enter Vehicle Data
+    const EVData = new EnterVehicleDataPage(page);
+    // XL Data Stored in Array 
     for(let i in data){
     console.log(data[i]);
-    await EvData.enterVehicleData(data[i]);
+    await EVData.enterVehicleData(data[i]);
+    }
+    await EVData.clickNext();
 
-}
-await EvData.clicknext();
 
-//enter insurant data:
-const EIdata = new EnterInsurantDataPage(page);
-for(let i in data){
+    // Enter Insurant Data: (Xl Data, Interface, PAGE, Xl Reader)
+    const EIdata = new EnterInsurantDataPage(page);
+    for(let i in data){
     console.log(data[i]);
-    await EIdata.EnterInsurantData(data[i]);
-}
-await EIdata.clickNext();
+    await EIdata.enterInsurantData(data[i]);
+    }
+    await EIdata.clickNext();
 await page.waitForTimeout(5000);
 
-//enter product data:
-const EPData = new EnterProductDataPage(page);
-for(let i in data){
+    // Enter Product  Data: (Xl Data, Interface, PAGE, Xl Reader)
+    const EPdata = new EnterProductData(page);
+    for(let i in data){
     console.log(data[i]);
-    await EPData.EnterProductData(data[i]);
-    await EPData.MeriCurt(data[i]);
-}
-await EPData.clickNext();
-await page.waitForTimeout(5000);
+    await EPdata.EnterProductDataAuto(data[i]);
+    await EPdata.MeritCurt(data[i]);
+    }
+    await EPdata.clickProductData();
 
-//send quote
-const SPData = new  SelectPriceOptionPage(page);
-for(let i in data){
+    await page.waitForTimeout(5000);
+
+    // Select Price Option
+    const SPdata = new SelectPrice(page);
+    for(let i in data){
     console.log(data[i]);
-    await SPData.SelectPrice(data[i]);
-}
-await SPData.clickSendQuote();
-await page.waitForTimeout(5000);
+    await SPdata.SelectPrice(data[i]);
+    }
+    await SPdata.clickSendQuote();
+    
+    await page.waitForTimeout(5000);
 
-//select price option
-const SQData = new  SendQuotePage(page);
-for(let i in data){
+        // Send Quotes
+    const SQdata = new SendQuoteClass(page);
+    for(let i in data){
     console.log(data[i]);
-    await SQData.SendQuote(data[i]);
-}
-await SQData.send.click();
+    await SQdata.SendQuote(data[i]);
+    }
+    await SQdata.SendQuotebtn();
+    
+    await page.waitForTimeout(5000);
 
+});
 
-await page.waitForTimeout(5000);
- 
-})
+test("E2E Flow Truck Insurance",async({page, homepage, VechileDataPage,
+                InsurantDataPage,
+                ProductPage,
+                pricepage,
+                QuotePage,})=>{
 
-test('E2E Flow Truck Insurance',async({page, homepage, vehicledata,
-                 insurantdata,
-                 productdata,
-                 pricepage,
-                 quotepage,})=>{
-
-        //step1: home page - click on truck
+        // Step1: Home Page - click on Truck
         await homepage.navigateToApplication();
         await homepage.clickTruck();
 
-        //step 2: enter vehicle data
-        await vehicledata.enterVehicleData(data[0]);
-        await vehicledata.truckfield(data[0]);
-        await vehicledata.clicknext();
+        // Step 2: Enter Vehicle Data
+        await VechileDataPage.enterVehicleData(data[0]);
+        await VechileDataPage.trucfields(data[0]);
+        await VechileDataPage.clickNext();
 
-        //step3: enter insurant data
-        await insurantdata.EnterInsurantData(data[0]);
-        await insurantdata.clickNext();
+        // Step3: Enter Insurant Data
+        await InsurantDataPage.enterInsurantData(data[0]);
+        await InsurantDataPage.clickNext();
+        
 
-        //step4 enter product data
-        await productdata.EnterProductData(data[0]);
-        await productdata.clickNext();
+        // step4: Enter Product Data
+        await ProductPage.EnterProductDataAuto(data[0]);
+        await ProductPage.clickProductData();
 
-        //step5 select price 
+        // Step 5: Select Price
         await pricepage.SelectPrice(data[0]);
         await pricepage.clickSendQuote();
 
-        //step6 send quote
-
+        // Step:5 Send Quote:
         const username = process.env.QUOTE_USERNAME;
         const password = process.env.QUOTE_PASSWORD;
 
-        await quotepage.SendQuote(data[0]);
-        await quotepage.clickNext();
+        await QuotePage.SendQuote(data[0]);
+        await QuotePage.SendQuotebtn();
 
         await page.waitForTimeout(5000);
-
+    
 });
 
                  

@@ -1,8 +1,11 @@
-import { Page, Locator } from "@playwright/test";
-import { VehicleData } from "../utils/vehicleDatamapper";
 
-export class SelectPriceOptionPage{
-   readonly page:Page;
+import {Page, Locator} from '@playwright/test'
+import { VehicleData } from '../utils/VehicleDatamapper';
+
+
+export class SelectPrice{
+    // properties:
+    readonly page:Page;
     readonly PriceOption:Locator;
     readonly next:Locator;
 
@@ -14,9 +17,6 @@ export class SelectPriceOptionPage{
 
 async SelectPrice(data:VehicleData){
     await this.page.locator(`input[name="Select Option"][value="${data.priceOption}"]`).check({force:true});
-    
-
-
 }
 
 

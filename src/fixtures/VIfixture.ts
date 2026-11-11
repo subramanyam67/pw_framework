@@ -1,55 +1,56 @@
+
 import {Page, test as base, expect} from '@playwright/test'
-import {HomePage} from '../pages/Homepage'
-import {EnterVehicleDataPages} from '../pages/EnterVehicleDataPages'
-import {EnterInsurantDataPage} from '../pages/EnterInsurantDataPage'
-import {EnterProductDataPage} from '../pages/EnterProductDatapage'
-import {SelectPriceOptionPage} from '../pages/SelectPriceOptionPage'
-import {SendQuotePage} from '../pages/SendQuotePage'
+import { HomePage } from '../pages/Homepage';
+import { EnterVehicleDataPage } from '../pages/EnterVehicleDataPages';
+import {EnterInsurantDataPage} from '../pages/EnterInsurantDataPage';
+import { EnterProductData } from '../pages/EnterProductDatapage';
+import { SelectPrice } from '../pages/SelectPriceOptionPage';
+import { SendQuoteClass } from '../pages/SendQuotePage';
+
 
 type MyFixtures = {
                 homepage: HomePage,
-                vehicledata: EnterVehicleDataPages,
-                insurantdata: EnterInsurantDataPage,
-                productdata: EnterProductDataPage,
-                pricepage: SelectPriceOptionPage,
-                quotepage: SendQuotePage,
+                VechileDataPage: EnterVehicleDataPage,
+                InsurantDataPage:EnterInsurantDataPage,
+                ProductPage: EnterProductData,
+                pricepage:SelectPrice,
+                QuotePage: SendQuoteClass,
 }
 
 export const test = base.extend<MyFixtures>({
     homepage: async({page}: {page: Page}, use)=>{
         const homepage = new HomePage(page);
         await use(homepage);
-
     },
 
-    vehicledata: async({page}:{page: Page},use)=>{
-        const vechiledatapage = new EnterVehicleDataPages(page);
-        await use(vechiledatapage);
-
+    // Vehicle Data
+        VechileDataPage: async({page}: {page: Page}, use)=>{
+        const VechileDataPage = new EnterVehicleDataPage(page);
+        await use(VechileDataPage);
     },
 
-    insurantdata: async({page}:{page: Page},use)=>{
-        const insurantdatapage = new EnterInsurantDataPage(page);
-        await use(insurantdatapage);
-
+    // Insurant Data
+        InsurantDataPage: async({page}: {page: Page}, use)=>{
+        const InsurantDataPage = new EnterInsurantDataPage(page);
+        await use(InsurantDataPage);
     },
 
-    productdata: async({page}:{page: Page},use)=>{
-        const productdatapage = new EnterProductDataPage(page);
-        await use(productdatapage);
-
+    // Product Data
+        ProductPage: async({page}: {page: Page}, use)=>{
+        const ProductPage = new EnterProductData(page);
+        await use(ProductPage);
     },
 
-    pricepage: async({page}:{page: Page},use)=>{
-        const pricepage = new SelectPriceOptionPage(page);
+    // Select Price
+        pricepage: async({page}: {page: Page}, use)=>{
+        const pricepage = new SelectPrice(page);
         await use(pricepage);
-
     },
 
-    quotepage: async({page}:{page: Page},use)=>{
-        const quotepage = new SendQuotePage(page);
-        await use(quotepage);
-
+    // Send quote
+        QuotePage: async({page}: {page: Page}, use)=>{
+        const QuotePage = new SendQuoteClass(page);
+        await use(QuotePage);
     },
 
 })
